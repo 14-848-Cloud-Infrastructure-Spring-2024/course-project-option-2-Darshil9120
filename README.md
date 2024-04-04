@@ -80,7 +80,7 @@ Create the Docker file. Build and run it to test it locally and it worked. Then,
 
 **Google Kubernetes Engine (GKE) Deployment:**
 
-After that we write the terraform code to deploy the GKE cluster alongside making pro-backend deployment and service yaml files. We deploy these yaml files using terraform. This is something we did in Homework-5. We then proceed to the services section (gateways, services and ingress) of the Kubernetes engine, where the frontend application was hosted at 34.127.109.17:80.
+After that we write the terraform code to deploy the GKE cluster alongside making pro-backend deployment and service yaml files. We deploy these yaml files using terraform. This is something we did in Homework-5. We then proceed to the services section (gateways, services and ingress) of the Kubernetes engine, where the frontend application was hosted at 35.230.76.111:80 .
 
 **Folder Structure**
 
