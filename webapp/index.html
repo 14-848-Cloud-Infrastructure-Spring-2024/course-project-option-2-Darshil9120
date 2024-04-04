@@ -1,0 +1,36 @@
+<!doctype html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <!--python3 -m http.server 8080-->
+    </head>
+<body>   
+    <header>
+        <div>MyName Search Engine</div>
+    </header>
+    <div id="container">
+        <div id="load-engine">
+            <h2>Load My Engine</h2>
+            <input type="file" id="file-chooser" multiple>
+            <ul id="file-list"></ul>
+            <button id="construct-indices">Construct Inverted Indices</button>
+        </div>
+    </div>
+   <script>
+    document.getElementById('file-chooser').addEventListener('change', function() {
+    	var files = this.files;
+    	var fileList = document.getElementById('file-list');
+    	fileList.innerHTML = '';
+
+    	for (var i = 0; i < files.length; i++) {
+        	var li = document.createElement('li'); 
+        	li.textContent = files[i].name; 
+        	fileList.appendChild(li); 
+    	}
+    });
+  </script>
+
+</body>
+</html>
