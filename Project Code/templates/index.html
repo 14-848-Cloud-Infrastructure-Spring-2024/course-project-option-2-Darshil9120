@@ -42,7 +42,7 @@
             formData.append('file' + i, files[i]);
         }
         
-        fetch('/upload', { // Assuming '/upload' is your server endpoint to handle file uploads
+        fetch('/upload', { 
             method: 'POST',
             body: formData,
         })
