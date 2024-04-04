@@ -44,7 +44,7 @@ The main assumption here is the input files that will be uploaded are tar archiv
 
 3) **Top_N Terms Functionality**
 
-•	Identifies the most frequently occurring words across the documents, excluding a predefined list of stop words.  Here is the list of Stop words that we used. This cam be increased to as many words we want to increase relevance. stop_words = set([ "the", "a", "an", "and", "or", "but", "is", "are", "of", "to", "in", "that", "it", "for", "on", "with", "as", "was", "were", "be", "been", "being", "i", "he", "his", "you", "not", "her", "had", "him", "her", "she", "my", "at", "this", "have", "which" , "all", "me", "what", "s", "how", "them", "then", "more", "did", "by", "so", "from", "one", "your", "no", "they", "said", "will", "there", "who", "do", "we", "do", "if", "when", "would", "their", "thou", "d", "now" # Add more stop words as needed ])
+•	Identifies the most frequently occurring words across the documents, excluding a predefined list of stop words.  Here is the list of Stop words that we used. This can be increased to as many words we want to increase relevance. stop_words = set([ "the", "a", "an", "and", "or", "but", "is", "are", "of", "to", "in", "that", "it", "for", "on", "with", "as", "was", "were", "be", "been", "being", "i", "he", "his", "you", "not", "her", "had", "him", "her", "she", "my", "at", "this", "have", "which" , "all", "me", "what", "s", "how", "them", "then", "more", "did", "by", "so", "from", "one", "your", "no", "they", "said", "will", "there", "who", "do", "we", "do", "if", "when", "would", "their", "thou", "d", "now" # Add more stop words as needed ]). We also print out the execution time of our search in milliseconds.
 
 **Interaction Between Frontend and Backend:**
 
