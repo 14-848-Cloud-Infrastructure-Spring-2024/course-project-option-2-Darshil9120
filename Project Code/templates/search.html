@@ -1,0 +1,34 @@
+<!doctype html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!--python3 -m http.server 8080-->
+    </head>
+<body>   
+    <header>
+        <div>MyName Search Engine</div>
+    </header>
+    <div id="container">
+        <div id="Success">
+            <h2>Engine was loaded & Inverted Indices were constructed Successfully</h2>
+            <h2>Please Select Action</h2>
+            <button id="Search-Term">Search Term</button>
+            <button id="Top-N">Top-N</button>
+        </div>
+    </div>
+
+<script>
+    document.getElementById('Search-Term').addEventListener('click', function() {
+
+        // Redirect to search.html
+        window.location.href = '/search_term';
+    });
+</script>
+
+<script>
+    document.getElementById('Top-N').addEventListener('click', function() {
+        window.location.href = '/top_n';
+    });
+</script>

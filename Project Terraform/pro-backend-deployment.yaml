@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment                                          # 1
+metadata:
+  name: pro-backend
+  labels:
+    app: pro-backend
+spec:
+  selector:
+    matchLabels:
+      app: pro-backend
+  replicas: 2                                             # 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate                                   # 3
+    rollingUpdate: 
+      maxUnavailable: 1                                   # 4
+      maxSurge: 1                                         # 5
+  template:
+    metadata:
+      labels:
+        app: pro-backend                                  # 6
+    spec:
+      containers:
+        - image: gcr.io/pure-polymer-417006/divyangam094/pro-backend:latest
+          imagePullPolicy: Always                         # 7
+          name: pro-backend
+          ports:
+            - containerPort: 5000
+          

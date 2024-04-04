@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!--python3 -m http.server 8080-->
+</head>
+<body>
+<header>
+    <div>MyName Search Engine</div>
+</header>
+<div id="container">
+    <div id="load-engine">
+        <h2>Load My Engine</h2>
+        <input type="file" id="file-chooser" multiple>
+        <ul id="file-list"></ul>
+        <button id="construct-indices">Construct Inverted Indices</button>
+    </div>
+</div>
+<script>
+    var tarFiles = [];
+
+    document.getElementById('file-chooser').addEventListener('change', function() {
+        var files = this.files;
+        var fileList = document.getElementById('file-list');
+        fileList.innerHTML = '';
+
+        for (var i = 0; i < files.length; i++) {
+            var li = document.createElement('li');
+            li.textContent = files[i].name;
+            fileList.appendChild(li);
+            tarFiles.push(files[i]);
+        }
+    });
+
+    document.getElementById('construct-indices').addEventListener('click', function() {
+        var files = document.getElementById('file-chooser').files;
+        var formData = new FormData();
+        
+        for (var i = 0; i < files.length; i++) {
+            formData.append('file' + i, files[i]);
+        }
+        
+        fetch('/upload', { // Assuming '/upload' is your server endpoint to handle file uploads
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // If the server responded indicating the index was built successfully, redirect
+                window.location.href = '/search';
+            } else {
+                alert('Failed to build the index');
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading files:', error);
+            alert('Error uploading files');
+        });
+    });
+    
+</script>
+
+
+</body>
+</html>

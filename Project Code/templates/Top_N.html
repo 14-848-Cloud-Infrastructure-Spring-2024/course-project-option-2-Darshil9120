@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+<body>
+    <div id="container">
+        <input type="number" id="N-Value">
+        <button id="get-top-n">Get Top N Words</button>
+        <div id="top-n-results"></div>
+    </div>
+
+    <script>
+        document.getElementById('get-top-n').addEventListener('click', function() {
+            const topN = document.getElementById('N-Value').value;
+            fetch('/top_n', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'topN=' + encodeURIComponent(topN)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsElement = document.getElementById('top-n-results');
+                resultsElement.innerHTML = '';
+                resultsElement.innerHTML += `<p>Search completed in ${data.search_time.toFixed(3)} ms.</p>`;
+                resultsElement.innerHTML += '<strong>Term Total Frequencies</strong><br>';
+                data.results.forEach(item => {
+                    resultsElement.innerHTML += `${item.term.toUpperCase()} ${item.frequency}<br>`;
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching top N words:', error);
+            });
+        });
+    </script>
+</body>
+</html>

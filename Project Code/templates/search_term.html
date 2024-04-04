@@ -1,0 +1,47 @@
+<!doctype html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+    <!--python3 -m http.server 8080-->
+    </head>
+<body>   
+    <header>
+        <div>MyName Search Engine</div>
+    </header>
+    <div id="container">
+        <div id="Success">
+            <h2>Enter your Search Term</h2>
+            <input type="text" id="search-term">
+            <button id="Search">Search</button>
+            <div id="results"></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('Search').addEventListener('click', function() {
+            const searchTerm = document.getElementById('search-term').value;
+            fetch('/search_term', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'searchTerm=' + encodeURIComponent(searchTerm)
+            })
+            .then(response => {
+                console.log(response);
+                return response.json();
+            })            
+            .then(data => {
+                const resultsElement = document.getElementById('results');
+                resultsElement.innerHTML = ''; // Clear previous results
+                resultsElement.innerHTML += `<p>Search completed in ${data.search_time.toFixed(3)} ms.</p>`;
+                data.results.forEach(result => {  // Make sure to access the results with data.results
+                    resultsElement.innerHTML += `Doc ID: ${result.doc_id}, Folder: ${result.folder}, Doc Name: ${result.name}, Frequencies: ${result.freq}<br>`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>     
