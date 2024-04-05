@@ -36,25 +36,47 @@ def Top_N():
 inverted_index = {}
 InvertedIndex = Dict[str, List[Tuple[int, str, str, int]]]
 
-def build_inverted_index_from_tar(tar_files: List[str]) -> InvertedIndex:
-    index: InvertedIndex = collections.defaultdict(list)
-    doc_id = 0
+def map_function(tar_path: str, doc_id_start: int) -> List[Tuple[str, Tuple[int, str, str, int]]]:
+    
+    intermediate = []
+    doc_id = doc_id_start
     word_pattern = re.compile(r'\b\w+\b')
 
-    for tar_path in tar_files:
-        with tarfile.open(tar_path, 'r:gz') as tar:
-            for member in tar.getmembers():
-                if member.isfile():
-                    doc_id += 1
-                    file: TextIOWrapper = tar.extractfile(member)
-                    text = file.read().decode('latin-1')  # Decoding as 'latin-1'
-                    words = word_pattern.findall(text.lower())
-                    word_count = collections.Counter(words)
-                    for word, count in word_count.items():
-                        # Append the document information to the list of occurrences of the word
-                        index[word].append((doc_id, tar_path, member.name, count))
+    with tarfile.open(tar_path, 'r:gz') as tar:
+        for member in tar.getmembers():
+            if member.isfile():
+                doc_id += 1
+                file: TextIOWrapper = tar.extractfile(member)
+                text = file.read().decode('latin-1')
+                words = word_pattern.findall(text.lower())
+                word_count = collections.Counter(words)
+                for word, count in word_count.items():
+                    intermediate.append((word, (doc_id, tar_path, member.name, count)))
     
+    return intermediate, doc_id
+
+def reduce_function(intermediate: List[Tuple[str, Tuple[int, str, str, int]]]) -> InvertedIndex:
+
+    index = collections.defaultdict(list)
+    for key, value in intermediate:
+        index[key].append(value)
     return index
+
+def build_inverted_index_from_tar(tar_files: List[str]) -> InvertedIndex:
+
+    intermediate = []
+    doc_id_start = 0
+
+    # Map phase
+    for tar_path in tar_files:
+        mapped, last_doc_id = map_function(tar_path, doc_id_start)
+        intermediate.extend(mapped)
+        doc_id_start = last_doc_id
+
+    # Reduce phase
+    inverted_index = reduce_function(intermediate)
+    
+    return inverted_index
 
 def search_term(index: InvertedIndex, term: str) -> List[Tuple[int, str, str, int]]:
     return index.get(term.lower(), [])
@@ -100,7 +122,7 @@ def upload_files():
         return jsonify(success=True)
     except Exception as e:
         print(e)  
-        return jsonify(success=False), 500
+        return jsonify(success=False), 
     
 @app.route('/search_term', methods=['POST'])
 def handle_search():
@@ -133,6 +155,3 @@ def handle_top_n():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
