@@ -37,7 +37,7 @@
                 const resultsElement = document.getElementById('results');
                 resultsElement.innerHTML = ''; // Clear previous results
                 resultsElement.innerHTML += `<p>Search completed in ${data.search_time.toFixed(3)} ms.</p>`;
-                data.results.forEach(result => {  // Make sure to access the results with data.results
+                data.results.forEach(result => {  
                     resultsElement.innerHTML += `Doc ID: ${result.doc_id}, Folder: ${result.folder}, Doc Name: ${result.name}, Frequencies: ${result.freq}<br>`;
                 });
             });
