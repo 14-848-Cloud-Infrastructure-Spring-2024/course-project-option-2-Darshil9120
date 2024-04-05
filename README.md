@@ -36,7 +36,7 @@ inverted_indices.py is our backend code with the entire bakcend logic. The backe
 
 1) **Building Inverted Indices**
 
-The main assumption here is the input files that will be uploaded are tar archives. Extracts these files to build an inverted index, and then enable search operations   
+The main assumption here is the input files that will be uploaded are tar archives. Extracts these files to build an inverted index, and then enable search operations. The mapping phase processes tar archives, extracting documents and emitting key-value pairs for each word, including document ID and metadata. This phase allows parallel processing, speeding up indexing. The reducing phase then aggregates these pairs by word, compiling a inverted index that links words to all documents they appear in, facilitating efficient search across large datasets.   
 
 2) **Search Term Functionality**
 
